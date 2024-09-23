@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.music-player {
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.player-header {
+    margin-bottom: 15px;
+}
+
+.album-art img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.controls {
+    margin-top: 10px;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.control-btn:hover {
+    color: #1db954;
+}
+
+.volume-control {
+    margin-top: 15px;
+}
+
+#volume-slider {
+    width: 100%;
+}
+
+    </style>
+</head>
+<body>
+    <div class="music-player">
+        <h1>MUSIC PLAYER</h1>
+        <div class="player-header">
+            <h1 id="song-title">Sample Song</h1>
+        </div>
+        <div class="album-art">
+            <img src="https://via.placeholder.com/150" id="album-cover" alt="Album Art">
+            
+        </div>
+        <div class="controls">
+            <button id="prev-btn" class="control-btn">⏮️</button>
+            <button id="play-btn" class="control-btn">▶️</button>
+            <button id="next-btn" class="control-btn">⏭️</button>
+        </div>
+        <div class="volume-control">
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+            <audio src="./assets/Tauba Tauba - Bad Newz-(DJMaza).mp3"></audio>
+        </div>
+    </div>
+    
+
+    <script>
+        const songs = [
+    {
+        title: "Teri Baaton",
+        url: "./assets/Teri Baaton Mein Aisa Uljha Jiya Title Track_128-(DJMaza).mp3",
+        cover: "./assets/teri-baton.jpg"
+    },
+    {
+        title: "Chaleya",
+        url: "./assets/Chaleya(PagalWorldl).mp3",
+        cover: "./assets/chaleya.jpg"
+    },
+    {
+        title: "Desi Kalakar",
+        url: "./assets/Desi-Kalakaar(PagalWorldl).mp3",
+        cover: "./assets/desi-kalakar.jpg"
+    },
+    {
+        title: "Heeriye",
+        url: "./assets/Heeriye(PagalWorldl).mp3",
+        cover: "./assets/Heeriye.jpg"
+    },{
+        title: "Jaanam",
+        url: "./assets/Jaanam - Bad Newz-(DJMaza).mp3",
+        cover: "./assets/Jaanam.jpg"
+    },
+    {
+        title: "Tauba Tuaba",
+        url: "./assets/Tauba Tauba - Bad Newz-(DJMaza).mp3",
+        cover: "./assets/tuaba-tauba.jpg"
+    }
+];
+
+let songIndex = 0;
+const audio = new Audio(songs[songIndex].url);
+const playBtn = document.getElementById('play-btn');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const songTitle = document.getElementById('song-title');
+const albumCover = document.getElementById('album-cover');
+const volumeSlider = document.getElementById('volume-slider');
+
+// Load the first song
+function loadSong(song) {
+    songTitle.textContent = song.title;
+    albumCover.src = song.cover;
+    audio.src = song.url;
+}
+
+function playSong() {
+    audio.play();
+    playBtn.textContent = '⏸️'; // Change icon to pause
+}
+
+function pauseSong() {
+    audio.pause();
+    playBtn.textContent = '▶️'; // Change icon to play
+}
+
+playBtn.addEventListener('click', () => {
+    if (audio.paused) {
+        playSong();
+    } else {
+        pauseSong();
+    }
+});
+
+nextBtn.addEventListener('click', () => {
+    songIndex = (songIndex + 1) % songs.length;
+    loadSong(songs[songIndex]);
+    playSong();
+});
+
+prevBtn.addEventListener('click', () => {
+    songIndex = (songIndex - 1 + songs.length) % songs.length;
+    loadSong(songs[songIndex]);
+    playSong();
+});
+
+volumeSlider.addEventListener('input', (e) => {
+    audio.volume = e.target.value;
+});
+
+// Load initial song
+loadSong(songs[songIndex]);
+
+
+    </script>
+</body>
+</html>
